@@ -35,6 +35,8 @@ the following rules will be applied:
      just add `[no-issue]` label.
    * additional lines MUST has more detailed description about what this commit carries inside
      For example: what was the problem and what is a solution, what has been improved and so on.
+   * additional lines could contain `[no-description]` label
+     It is not recommended, though, but you can.
 
 ## Contributions
 
