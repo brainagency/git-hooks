@@ -4,6 +4,17 @@
 
 Due to mostly scripts will be written in Ruby, __your dev system should has globally available Ruby__.
 
+## Installation
+
+1. Go to `.git/hooks` folder of your project
+2. Download interesting for you hook script example.
+   ```
+   wget https://raw.githubusercontent.com/brainagency/git-hooks/master/commit-msg.example
+   ```
+3. Rename hook file by removing `.example` extension
+4. Do not forget to adjust hook script code, in particular, issue code pattern.
+5. Enjoy commiting!
+
 ## commit-msg hook
 
 In order to:
@@ -24,3 +35,8 @@ the following rules will be applied:
      just add `[no-issue]` label.
    * additional lines MUST has more detailed description about what this commit carries inside
      For example: what was the problem and what is a solution, what has been improved and so on.
+
+## Contributions
+
+All contributions are welcome and required! Feel free to make a fork and send PRs! Let's make our
+development more better!
