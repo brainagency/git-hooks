@@ -1,0 +1,124 @@
+#!/usr/bin/env ruby
+
+#=================================================================================================
+# Checking commit message text and its format
+#=================================================================================================
+#
+# In order to:
+#   * make commit messages more standartized
+#   * make commit message to tell what this particular commit provides
+#   * make commit message more convenient for the other developers
+# the following rules will be applied:
+#   * main line MUST to not contain issue number.
+#     Mostly issue number is useful for the tickets systems, CI systems and others, but not for
+#     developers. Actually issue number takes a lot of space, which is not so big, to write
+#     meaningful commit description, because mostly everywhere git shows only this first line.
+#   * main line MUST has length not more than 50 characters.
+#     Of course you can write more, but only 50 characters will be showen, for example, in the
+#     bitbucket and other systems.
+#   * additional lines MUST has issue number OR `[no-issue]` label
+#     In order to allow specialized systems to link commits and issues. If you do not want that,
+#     just add `[no-issue]` label.
+#   * additional lines MUST has more detailed description about what this commit carries inside
+#     For example: what was the problem and what is a solution, what has been improved and so on.
+
+file_path = ARGV[0]
+raw_commit_message = File.read(file_path)
+
+class CommitMessage
+  # Issue code pattern.
+  # For example:
+  #   * in Jira each project has a code.
+  #     So an issue code in a particular project will be `<PROJECT-CODE>-<ISSUE-NUMBER>`.
+  ISSUE_REGEX=/<PROJECT-CODE>-\d*/
+  NO_ISSUE_REGEX=/\[no-issue\]/
+  COMMENT_LINE_REGEX=/^\#.*/
+  MAIN_LINE_MAX_LENGTH=50
+  LENGTH_OF_DESCRIPTION_THRESHOLD=2
+
+  attr_reader :raw_message
+
+  def initialize(raw_message)
+    @raw_message = raw_message
+  end
+
+  def main_line_has_issue_number?
+    main_line.match ISSUE_REGEX
+  end
+
+  def main_line_exceeds_length?
+    main_line.length > MAIN_LINE_MAX_LENGTH
+  end
+
+  def additional_lines_has_issue_number?
+    additional_lines_joined.match ISSUE_REGEX
+  end
+
+  def additional_lines_skips_issue_number?
+    additional_lines_joined.match NO_ISSUE_REGEX
+  end
+
+  def additional_lines_has_description?
+    length_of_just_description = additional_lines_joined
+      .gsub(ISSUE_REGEX, '')
+      .gsub(NO_ISSUE_REGEX, '')
+      .chomp.strip.length
+    length_of_just_description > LENGTH_OF_DESCRIPTION_THRESHOLD
+  end
+
+  private
+
+  def message_lines_without_comments
+    @_message_lines_without_comments ||= raw_message
+      .split("\n")
+      .select { |line| !COMMENT_LINE_REGEX.match(line) }
+  end
+
+  def main_line
+    message_lines_without_comments[0]
+  end
+
+  def additional_lines_joined
+    message_lines_without_comments[1..-1].join("")
+  end
+end
+
+commit_message = CommitMessage.new(raw_commit_message)
+
+# Check a first line of the commit message.
+# Rule:
+# - there is must be no issue numbers. Use additional lines for that.
+if commit_message.main_line_has_issue_number?
+  puts "The main line of a commit message contains an issue number!"
+  puts "To fix that, please, move the issue number to the additional lines!"
+  exit 1
+end
+
+# Check a length of the main line of the commit message
+# Rule:
+# - a length of a main line of a commit message must to not exceed a specified value. Right now 50
+if commit_message.main_line_exceeds_length?
+  puts "The main line's length exceeds a threshold which is #{CommitMessage::MAIN_LINE_MAX_LENGTH} characters!"
+  puts "Please, make a commit message more brief!"
+  puts "Git does not preserve a commit messages which exceeds #{CommitMessage::MAIN_LINE_MAX_LENGTH} characters in length!"
+  exit 1
+end
+
+# Check for presence of the issue number in the rest of the commit message
+# Rule:
+# - each commit must has a reference to an issue in a tickets system to know why this changes exist
+#   and if you go to see the issue you can find more information there what must be done
+if !commit_message.additional_lines_has_issue_number? && !commit_message.additional_lines_skips_issue_number?
+  puts "The additional lines do not contain the issue code!"
+  puts "Please, make sure to mark commit with it!"
+  exit 1
+end
+
+# Check for additional description presence in the rest of the commit message
+unless commit_message.additional_lines_has_description?
+  puts "There is no additional description found!"
+  puts "Commit message main line's length is very short to contain a full list of the details about"
+  puts "what this commit provides. So be free to add some additional lines to describe the commit!"
+  exit 1
+end
+
