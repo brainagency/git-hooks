@@ -25,7 +25,7 @@
 file_path = ARGV[0]
 raw_commit_message = File.read(file_path)
 
-class CommitMessage
+module Constants
   # Issue code pattern.
   # For example:
   #   * in Jira each project has a code.
@@ -36,6 +36,22 @@ class CommitMessage
   COMMENT_LINE_REGEX=/^\#.*/
   MAIN_LINE_MAX_LENGTH=50
   LENGTH_OF_DESCRIPTION_THRESHOLD=2
+end
+
+class Commit
+  include Constants
+
+  def branch_name
+    `git rev-parse --abbrev-ref HEAD`
+  end
+
+  def branch_name_has_issue_number?
+    branch_name.match ISSUE_REGEX
+  end
+end
+
+class CommitMessage
+  include Constants
 
   attr_reader :raw_message
 
@@ -89,6 +105,7 @@ class CommitMessage
 end
 
 commit_message = CommitMessage.new(raw_commit_message)
+commit = Commit.new
 
 # Check a first line of the commit message.
 # Rule:
@@ -113,7 +130,7 @@ end
 # Rule:
 # - each commit must has a reference to an issue in a tickets system to know why this changes exist
 #   and if you go to see the issue you can find more information there what must be done
-if !commit_message.additional_lines_has_issue_number? && !commit_message.additional_lines_skips_issue_number?
+if !commit_message.additional_lines_has_issue_number? && !commit_message.additional_lines_skips_issue_number? && !commit.branch_name_has_issue_number?
   puts "The additional lines do not contain the issue code!"
   puts "Please, make sure to mark commit with it!"
   exit 1
