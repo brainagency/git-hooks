@@ -32,7 +32,7 @@ the following rules will be applied:
      bitbucket and other systems.
    * additional lines MUST has issue number OR `[no-issue]` label
      In order to allow specialized systems to link commits and issues. If you do not want that,
-     just add `[no-issue]` label.
+     just add `[no-issue]` label. Also you can skip issue number if a branch name already has it.
    * additional lines MUST has more detailed description about what this commit carries inside
      For example: what was the problem and what is a solution, what has been improved and so on.
    * additional lines could contain `[no-description]` label
