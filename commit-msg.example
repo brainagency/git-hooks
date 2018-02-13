@@ -39,12 +39,8 @@ CommitMessageRules::RuleRunner.run(rule: rule)
 # Check a length of the main line of the commit message
 # Rule:
 # - a length of a main line of a commit message must to not exceed a specified value. Right now 50
-if commit.message.main_line_exceeds_length?
-  puts "The main line's length exceeds a threshold which is #{CommitMessage::MAIN_LINE_MAX_LENGTH} characters!"
-  puts "Please, make a commit message more brief!"
-  puts "Git does not preserve a commit messages which exceeds #{CommitMessage::MAIN_LINE_MAX_LENGTH} characters in length!"
-  exit 1
-end
+rule = CommitMessageRules::MessageMainLineShouldNotExceedLengthRule.new(commit: commit)
+CommitMessageRules::RuleRunner.run(rule: rule)
 
 # Check for presence of the issue number in the rest of the commit message
 # Rule:
