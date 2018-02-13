@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require_relative './core/git_hooks'
+
 #=================================================================================================
 # Checking commit message text and its format
 #=================================================================================================
@@ -24,85 +26,6 @@
 
 file_path = ARGV[0]
 raw_commit_message = File.read(file_path)
-
-module Constants
-  # Issue code pattern.
-  # For example:
-  #   * in Jira each project has a code.
-  #     So an issue code in a particular project will be `<PROJECT-CODE>-<ISSUE-NUMBER>`.
-  ISSUE_REGEX=/<PROJECT-CODE>-\d*/
-  NO_ISSUE_REGEX=/\[no-issue\]/
-  NO_DESCRIPTION_REGEX=/\[no-description\]|\[no-desc\]/
-  COMMENT_LINE_REGEX=/^\#.*/
-  MAIN_LINE_MAX_LENGTH=50
-  LENGTH_OF_DESCRIPTION_THRESHOLD=2
-end
-
-class Commit
-  include Constants
-
-  def branch_name
-    `git rev-parse --abbrev-ref HEAD`
-  end
-
-  def branch_name_has_issue_number?
-    branch_name.match ISSUE_REGEX
-  end
-end
-
-class CommitMessage
-  include Constants
-
-  attr_reader :raw_message
-
-  def initialize(raw_message)
-    @raw_message = raw_message
-  end
-
-  def main_line_has_issue_number?
-    main_line.match ISSUE_REGEX
-  end
-
-  def main_line_exceeds_length?
-    main_line.length > MAIN_LINE_MAX_LENGTH
-  end
-
-  def additional_lines_has_issue_number?
-    additional_lines_joined.match ISSUE_REGEX
-  end
-
-  def additional_lines_skips_issue_number?
-    additional_lines_joined.match NO_ISSUE_REGEX
-  end
-
-  def additional_lines_has_description?
-    length_of_just_description = additional_lines_joined
-      .gsub(ISSUE_REGEX, '')
-      .gsub(NO_ISSUE_REGEX, '')
-      .chomp.strip.length
-    length_of_just_description > LENGTH_OF_DESCRIPTION_THRESHOLD
-  end
-
-  def additional_lines_skips_description?
-    additional_lines_joined.match NO_DESCRIPTION_REGEX
-  end
-
-  private
-
-  def message_lines_without_comments
-    @_message_lines_without_comments ||= raw_message
-      .split("\n")
-      .select { |line| !COMMENT_LINE_REGEX.match(line) }
-  end
-
-  def main_line
-    message_lines_without_comments[0]
-  end
-
-  def additional_lines_joined
-    message_lines_without_comments[1..-1].join("")
-  end
-end
 
 commit_message = CommitMessage.new(raw_commit_message)
 commit = Commit.new
