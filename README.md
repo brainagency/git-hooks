@@ -7,13 +7,12 @@ Due to mostly scripts will be written in Ruby, __your dev system should has glob
 ## Installation
 
 1. Go to `.git/hooks` folder of your project
-2. Download interesting for you hook script example.
+2. Clone the repo under the current directory
    ```
-   wget https://raw.githubusercontent.com/brainagency/git-hooks/master/commit-msg.example
+   git clone git@github.com:brainagency/git-hooks.git .
    ```
-3. Rename hook file by removing `.example` extension
-4. Do not forget to adjust hook script code, in particular, issue code pattern.
-5. Enjoy commiting!
+3. Copy the example files (with `.example` extension) into the ones without any extension. That should be done to able to checkout fresh versions.
+4. Profit!
 
 ## commit-msg hook
 
