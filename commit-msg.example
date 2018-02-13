@@ -67,7 +67,5 @@ if !commit.message.additional_lines_has_description? && !commit.message.addition
   exit 1
 end
 
-if commit.message.additional_lines_skips_description?
-  puts "I see... that you skip commit additional description... Ah okay, okay."
-  puts "Despite on some specific situations, it is not recommended to skip it. Just remember this."
-end
+rule = CommitMessageRules::MessageShouldHaveDescriptionWarningRule.new(commit: commit)
+CommitMessageRules::RuleRunner.run(rule: rule)

@@ -13,6 +13,10 @@ class Commit
     branch_name.match(ISSUE_REGEX) != nil
   end
 
+  def message_additional_lines_joined
+    message.additional_lines_joined
+  end
+
   def message
     @_message ||= CommitMessage.new(raw_message)
   end
