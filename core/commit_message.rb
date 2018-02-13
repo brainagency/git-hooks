@@ -35,18 +35,18 @@ class CommitMessage
     additional_lines_joined.match NO_DESCRIPTION_REGEX
   end
 
-  def message_lines_without_comments
+  def lines_without_comments
     @_message_lines_without_comments ||= raw_message
       .split("\n")
       .select { |line| !COMMENT_LINE_REGEX.match(line) }
   end
 
   def main_line
-    message_lines_without_comments[0]
+    lines_without_comments[0]
   end
 
   def additional_lines_joined
-    message_lines_without_comments[1..-1].join("")
+    lines_without_comments[1..-1].join("")
   end
 end
 

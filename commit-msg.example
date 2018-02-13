@@ -33,11 +33,8 @@ commit = Commit.new(raw_message: raw_commit_message)
 # Check a first line of the commit message.
 # Rule:
 # - there is must be no issue numbers. Use additional lines for that.
-if commit.message.main_line_has_issue_number?
-  puts "The main line of a commit message contains an issue number!"
-  puts "To fix that, please, move the issue number to the additional lines!"
-  exit 1
-end
+rule = CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule.new(commit: commit)
+CommitMessageRules::RuleRunner.run(rule: rule)
 
 # Check a length of the main line of the commit message
 # Rule:
