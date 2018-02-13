@@ -35,8 +35,6 @@ class CommitMessage
     additional_lines_joined.match NO_DESCRIPTION_REGEX
   end
 
-  private
-
   def message_lines_without_comments
     @_message_lines_without_comments ||= raw_message
       .split("\n")

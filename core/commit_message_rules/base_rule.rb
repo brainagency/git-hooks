@@ -1,5 +1,9 @@
+require_relative '../constants'
+
 module CommitMessageRules
   class BaseRule
+    include Constants
+
     def initialize(commit:)
       @commit = commit
     end

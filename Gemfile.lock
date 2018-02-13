@@ -3,6 +3,7 @@ GEM
   specs:
     ansi (1.5.0)
     builder (3.2.3)
+    byebug (10.0.0)
     minitest (5.11.3)
     minitest-reporters (1.1.19)
       ansi
@@ -16,6 +17,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug (= 10.0.0)
   minitest (= 5.11.3)
   minitest-reporters (= 1.1.19)
   rake (= 12.3.0)

@@ -3,3 +3,5 @@
 **/*.swp
 
 .env.rb
+
+.byebug_history
