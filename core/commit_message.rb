@@ -7,14 +7,6 @@ class CommitMessage
     @raw_message = raw_message
   end
 
-  def main_line_has_issue_number?
-    main_line.match ISSUE_REGEX
-  end
-
-  def main_line_exceeds_length?
-    main_line.length > MAIN_LINE_MAX_LENGTH
-  end
-
   def additional_lines_has_issue_number?
     additional_lines_joined.match ISSUE_REGEX
   end
