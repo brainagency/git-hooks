@@ -4,7 +4,7 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
   include Constants
 
   def commit
-    @commit ||= Minitest::Mock.new
+    @commit ||= Commit.new
   end
 
   def rule
@@ -25,9 +25,10 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
     [no-desc]
     another text
     LINES
-    commit.expect :additional_lines_joined, additional_lines
 
-    assert rule.violated? == true
+    commit.stub :message_additional_lines_joined, additional_lines do
+      assert rule.violated? == true
+    end
   end
 
   def test_violated_when_additional_lines_have_not_skip_label
@@ -35,8 +36,8 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
     some text
     another text
     LINES
-    commit.expect :additional_lines_joined, additional_lines
-
-    assert rule.violated? == false
+    commit.stub :message_additional_lines_joined, additional_lines do
+      assert rule.violated? == false
+    end
   end
 end

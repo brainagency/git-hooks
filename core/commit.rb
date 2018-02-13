@@ -17,6 +17,10 @@ class Commit
     message.additional_lines_joined
   end
 
+  def message_main_line
+    message.main_line
+  end
+
   def message
     @_message ||= CommitMessage.new(raw_message)
   end
