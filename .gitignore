@@ -2,4 +2,4 @@
 
 **/*.swp
 
-.env
+.env.rb
