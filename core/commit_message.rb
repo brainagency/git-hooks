@@ -4,15 +4,7 @@ class CommitMessage
   attr_reader :raw_message
 
   def initialize(raw_message)
-    @raw_message = raw_message
-  end
-
-  def additional_lines_has_issue_number?
-    additional_lines_joined.match ISSUE_REGEX
-  end
-
-  def additional_lines_skips_issue_number?
-    additional_lines_joined.match NO_ISSUE_REGEX
+    @raw_message = raw_message.to_s
   end
 
   def additional_lines_has_description?
@@ -27,18 +19,20 @@ class CommitMessage
     additional_lines_joined.match NO_DESCRIPTION_REGEX
   end
 
+  def main_line
+    lines_without_comments[0].to_s
+  end
+
+  def additional_lines_joined
+    Array(lines_without_comments[1..-1]).join("")
+  end
+
+  private
+
   def lines_without_comments
     @_message_lines_without_comments ||= raw_message
       .split("\n")
       .select { |line| !COMMENT_LINE_REGEX.match(line) }
-  end
-
-  def main_line
-    lines_without_comments[0]
-  end
-
-  def additional_lines_joined
-    lines_without_comments[1..-1].join("")
   end
 end
 

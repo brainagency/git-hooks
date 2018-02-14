@@ -25,11 +25,11 @@ class Commit
     @_message ||= CommitMessage.new(raw_message)
   end
 
-  private
-
-  attr_reader :git_proxy, :raw_message
-
   def branch_name
     git_proxy.current_branch_name
   end
+
+  private
+
+  attr_reader :git_proxy, :raw_message
 end
