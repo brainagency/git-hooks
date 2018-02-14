@@ -4,7 +4,7 @@ class CommitMessageRules::RuleRunnerTest < Minitest::Test
   def test_run_when_not_rule_is_not_violated
     rule = Minitest::Mock.new
     rule.expect :violated?, false
-    refute CommitMessageRules::RuleRunner.run(rule: rule)
+    refute CommitMessageRules::RuleRunner.new.run(rule: rule)
   end
 
   def test_run_when_rule_is_violated_without_exit
@@ -18,7 +18,9 @@ class CommitMessageRules::RuleRunnerTest < Minitest::Test
     io = Minitest::Mock.new
     io.expect :puts, nil, ['This rule is violated!']
 
-    CommitMessageRules::RuleRunner.run(rule: rule, io: io, exiter: exiter)
+    rule_runner = CommitMessageRules::RuleRunner.new(io: io, exiter: exiter)
+
+    rule_runner.run(rule: rule)
 
     assert_mock rule
     assert_mock io
@@ -37,7 +39,9 @@ class CommitMessageRules::RuleRunnerTest < Minitest::Test
     io = Minitest::Mock.new
     io.expect :puts, nil, ['This rule is violated!']
 
-    CommitMessageRules::RuleRunner.run(rule: rule, io: io, exiter: exiter)
+    rule_runner = CommitMessageRules::RuleRunner.new(io: io, exiter: exiter)
+
+    rule_runner.run(rule: rule)
 
     assert_mock rule
     assert_mock io
