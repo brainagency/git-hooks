@@ -50,12 +50,8 @@ rule = CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPar
 CommitMessageRules::RuleRunner.run(rule: rule)
 
 # Check for additional description presence in the rest of the commit message
-if !commit.message.additional_lines_has_description? && !commit.message.additional_lines_skips_description?
-  puts "There is no additional description found!"
-  puts "Commit message main line's length is very short to contain a full list of the details about"
-  puts "what this commit provides. So be free to add some additional lines to describe the commit!"
-  exit 1
-end
+rule = CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule.new(commit: commit)
+CommitMessageRules::RuleRunner.run(rule: rule)
 
 rule = CommitMessageRules::MessageShouldHaveDescriptionWarningRule.new(commit: commit)
 CommitMessageRules::RuleRunner.run(rule: rule)
