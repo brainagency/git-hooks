@@ -11,7 +11,7 @@ class CommitMessage
     lines_without_comments[0].to_s
   end
 
-  def additional_lines_joined
+  def description
     Array(lines_without_comments[1..-1]).join("")
   end
 
