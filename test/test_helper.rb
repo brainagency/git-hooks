@@ -10,3 +10,5 @@ require_relative '../core/git_hooks'
 require 'byebug'
 
 Minitest::Reporters.use!
+
+Mocha::Configuration.prevent(:stubbing_non_existent_method)

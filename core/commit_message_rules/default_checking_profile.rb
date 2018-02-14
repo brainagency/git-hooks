@@ -9,9 +9,10 @@ module CommitMessageRules
     ]
 
     def self.check(commit:, io: Kernel, exiter: Kernel)
+      rule_runner = RuleRunner.new(io: io, exiter: exiter)
       RULE_CLASSES.each do |rule_class|
         rule = rule_class.new(commit: commit)
-        RuleRunner.run(rule: rule, io: io, exiter: exiter)
+        rule_runner.run(rule: rule)
       end
     end
   end
