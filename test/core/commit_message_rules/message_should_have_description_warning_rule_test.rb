@@ -19,24 +19,24 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
     refute rule.exit_if_violated?
   end
 
-  def test_violated_when_additional_lines_have_skip_label
-    additional_lines = <<-LINES
+  def test_violated_when_description_have_skip_label
+    description = <<-LINES
     some text
     [no-desc]
     another text
     LINES
 
-    commit.stub :message_additional_lines_joined, additional_lines do
+    commit.stub :message_description, description do
       assert rule.violated? == true
     end
   end
 
-  def test_violated_when_additional_lines_have_not_skip_label
-    additional_lines = <<-LINES
+  def test_violated_when_description_have_not_skip_label
+    description = <<-LINES
     some text
     another text
     LINES
-    commit.stub :message_additional_lines_joined, additional_lines do
+    commit.stub :message_description, description do
       assert rule.violated? == false
     end
   end

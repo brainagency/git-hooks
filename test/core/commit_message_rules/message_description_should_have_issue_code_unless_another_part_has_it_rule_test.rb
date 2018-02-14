@@ -20,13 +20,13 @@ class CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPart
   end
 
   def test_violated_when_description_has_issue_code
-    commit.stub :message_additional_lines_joined, 'PRJ-123 some issue fix description' do
+    commit.stub :message_description, 'PRJ-123 some issue fix description' do
       assert rule.violated? == false
     end
   end
 
   def test_violated_when_description_skips_issue_code
-    commit.stub :message_additional_lines_joined, '[no-issue]' do
+    commit.stub :message_description, '[no-issue]' do
       assert rule.violated? == false
     end
   end

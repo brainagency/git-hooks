@@ -17,11 +17,11 @@ what this commit provides. So be free to add some additional lines to describe t
     private
 
     def description_is_not_skipped?
-      commit.message_additional_lines_joined.match(NO_DESCRIPTION_REGEX) == nil
+      commit.message_description.match(NO_DESCRIPTION_REGEX) == nil
     end
 
     def description_is_absent?
-      length_of_just_description = commit.message_additional_lines_joined
+      length_of_just_description = commit.message_description
         .gsub(ISSUE_REGEX, '')
         .gsub(NO_ISSUE_REGEX, '')
         .chomp.strip.length

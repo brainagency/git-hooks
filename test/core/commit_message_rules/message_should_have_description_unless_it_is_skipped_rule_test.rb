@@ -18,19 +18,19 @@ class CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRuleTest 
   end
 
   def test_violated_when_description_is_skipped
-    commit.stub :message_additional_lines_joined, '[no-desc]' do
+    commit.stub :message_description, '[no-desc]' do
       assert rule.violated? == false
     end
   end
 
   def test_violated_when_description_is_not_skipped_and_empty
-    commit.stub :message_additional_lines_joined, '     ' do
+    commit.stub :message_description, '     ' do
       assert rule.violated? == true
     end
   end
 
   def test_violated_when_description_is_not_skipped_and_not_empty
-    commit.stub :message_additional_lines_joined, 'some very long long commit description' do
+    commit.stub :message_description, 'some very long long commit description' do
       assert rule.violated? == false
     end
   end
