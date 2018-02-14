@@ -18,11 +18,11 @@ Please, make sure to mark commit with it!
     private
 
     def description_has_not_issue_code?
-      commit.message_additional_lines_joined.match(ISSUE_REGEX) == nil
+      commit.message_description.match(ISSUE_REGEX) == nil
     end
 
     def description_does_not_skip_issue_code?
-      commit.message_additional_lines_joined.match(NO_ISSUE_REGEX) == nil
+      commit.message_description.match(NO_ISSUE_REGEX) == nil
     end
 
     def current_branch_has_not_issue_code_in_name?

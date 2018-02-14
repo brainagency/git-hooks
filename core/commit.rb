@@ -9,7 +9,7 @@ class Commit
     @raw_message = raw_message
   end
 
-  def message_additional_lines_joined
+  def message_description
     message.description
   end
 

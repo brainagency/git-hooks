@@ -3,7 +3,7 @@ require_relative './base_rule'
 module CommitMessageRules
   class MessageShouldHaveDescriptionWarningRule < BaseRule
     def violated?
-      commit.message_additional_lines_joined.match(NO_DESCRIPTION_REGEX) != nil
+      commit.message_description.match(NO_DESCRIPTION_REGEX) != nil
     end
 
     def error_message
