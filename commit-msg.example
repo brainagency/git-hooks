@@ -46,11 +46,8 @@ CommitMessageRules::RuleRunner.run(rule: rule)
 # Rule:
 # - each commit must has a reference to an issue in a tickets system to know why this changes exist
 #   and if you go to see the issue you can find more information there what must be done
-if !commit.message.additional_lines_has_issue_number? && !commit.message.additional_lines_skips_issue_number? && !commit.branch_name_has_issue_number?
-  puts "The additional lines do not contain the issue code!"
-  puts "Please, make sure to mark commit with it!"
-  exit 1
-end
+rule = CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule.new(commit: commit)
+CommitMessageRules::RuleRunner.run(rule: rule)
 
 # Check for additional description presence in the rest of the commit message
 if !commit.message.additional_lines_has_description? && !commit.message.additional_lines_skips_description?
