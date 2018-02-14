@@ -30,15 +30,4 @@ raw_commit_message = File.read(file_path)
 
 commit = Commit.new(raw_message: raw_commit_message)
 
-rule_classes = [
-  CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule,
-  CommitMessageRules::MessageMainLineShouldNotExceedLengthRule,
-  CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule,
-  CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule,
-  CommitMessageRules::MessageShouldHaveDescriptionWarningRule
-]
-
-rule_classes.each do |rule_class|
-  rule = rule_classes.new(commit: commit)
-  CommitMessageRules::RuleRunner.run(rule: rule)
-end
+CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
