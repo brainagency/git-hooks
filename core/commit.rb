@@ -10,7 +10,7 @@ class Commit
   end
 
   def message_additional_lines_joined
-    message.additional_lines_joined
+    message.description
   end
 
   def message_main_line
