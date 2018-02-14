@@ -30,28 +30,15 @@ raw_commit_message = File.read(file_path)
 
 commit = Commit.new(raw_message: raw_commit_message)
 
-# Check a first line of the commit message.
-# Rule:
-# - there is must be no issue numbers. Use additional lines for that.
-rule = CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule.new(commit: commit)
-CommitMessageRules::RuleRunner.run(rule: rule)
+rule_classes = [
+  CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule,
+  CommitMessageRules::MessageMainLineShouldNotExceedLengthRule,
+  CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule,
+  CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule,
+  CommitMessageRules::MessageShouldHaveDescriptionWarningRule
+]
 
-# Check a length of the main line of the commit message
-# Rule:
-# - a length of a main line of a commit message must to not exceed a specified value. Right now 50
-rule = CommitMessageRules::MessageMainLineShouldNotExceedLengthRule.new(commit: commit)
-CommitMessageRules::RuleRunner.run(rule: rule)
-
-# Check for presence of the issue number in the rest of the commit message
-# Rule:
-# - each commit must has a reference to an issue in a tickets system to know why this changes exist
-#   and if you go to see the issue you can find more information there what must be done
-rule = CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule.new(commit: commit)
-CommitMessageRules::RuleRunner.run(rule: rule)
-
-# Check for additional description presence in the rest of the commit message
-rule = CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule.new(commit: commit)
-CommitMessageRules::RuleRunner.run(rule: rule)
-
-rule = CommitMessageRules::MessageShouldHaveDescriptionWarningRule.new(commit: commit)
-CommitMessageRules::RuleRunner.run(rule: rule)
+rule_classes.each do |rule_class|
+  rule = rule_classes.new(commit: commit)
+  CommitMessageRules::RuleRunner.run(rule: rule)
+end
