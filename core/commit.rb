@@ -9,10 +9,6 @@ class Commit
     @raw_message = raw_message
   end
 
-  def branch_name_has_issue_number?
-    branch_name.match(ISSUE_REGEX) != nil
-  end
-
   def message_additional_lines_joined
     message.additional_lines_joined
   end
