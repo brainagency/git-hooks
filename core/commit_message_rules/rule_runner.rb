@@ -1,18 +1,25 @@
 module CommitMessageRules
   class RuleRunner
-    def initialize(io: Kernel, exiter: Kernel)
-      @io = io
-      @exiter = exiter
-    end
-
     def run(rule:)
-      return false unless rule.violated?
-      io.puts rule.error_message
-      exiter.exit 1 if rule.exit_if_violated?
+      if rule.violated?
+        build_violated_result(rule)
+      else
+        build_not_violated_result
+      end
     end
 
     private
 
-    attr_reader :io, :exiter
+    def build_not_violated_result
+      RuleCheckResult.build_not_violated
+    end
+
+    def build_violated_result(rule)
+      RuleCheckResult.new(
+        is_violated: true,
+        exit_if_violated: rule.exit_if_violated?,
+        message: rule.error_message
+      )
+    end
   end
 end

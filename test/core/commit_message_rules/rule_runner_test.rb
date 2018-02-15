@@ -1,50 +1,44 @@
 require_relative '../../test_helper'
 
+TestRule = Class.new(CommitMessageRules::BaseRule)
+
 class CommitMessageRules::RuleRunnerTest < Minitest::Test
+  def rule
+    @rule ||= TestRule.new(commit: mock())
+  end
+
   def test_run_when_not_rule_is_not_violated
-    rule = Minitest::Mock.new
-    rule.expect :violated?, false
-    refute CommitMessageRules::RuleRunner.new.run(rule: rule)
+    rule.stubs(:violated?).returns(false)
+    check_result = CommitMessageRules::RuleRunner.new.run(rule: rule)
+    refute check_result.violated?
   end
 
   def test_run_when_rule_is_violated_without_exit
-    rule = Minitest::Mock.new
-    rule.expect :violated?, true
-    rule.expect :error_message, 'This rule is violated!'
-    rule.expect :exit_if_violated?, false
+    rule.stubs(:violated?).returns(true)
+    rule.stubs(:error_message).returns('This rule is violated!')
+    rule.stubs(:exit_if_violated?).returns(false)
 
-    exiter = Minitest::Mock.new
 
-    io = Minitest::Mock.new
-    io.expect :puts, nil, ['This rule is violated!']
+    rule_runner = CommitMessageRules::RuleRunner.new
 
-    rule_runner = CommitMessageRules::RuleRunner.new(io: io, exiter: exiter)
+    check_result = rule_runner.run(rule: rule)
 
-    rule_runner.run(rule: rule)
-
-    assert_mock rule
-    assert_mock io
-    assert_mock exiter
+    assert check_result.violated?
+    refute check_result.exit_if_violated?
+    assert check_result.message == rule.error_message
   end
 
   def test_run_when_rule_is_violated_with_exit
-    rule = Minitest::Mock.new
-    rule.expect :violated?, true
-    rule.expect :error_message, 'This rule is violated!'
-    rule.expect :exit_if_violated?, true
+    rule.stubs(:violated?).returns(true)
+    rule.stubs(:error_message).returns('This rule is violated!')
+    rule.stubs(:exit_if_violated?).returns(true)
 
-    exiter = Minitest::Mock.new
-    exiter.expect :exit, nil, [1]
+    rule_runner = CommitMessageRules::RuleRunner.new
 
-    io = Minitest::Mock.new
-    io.expect :puts, nil, ['This rule is violated!']
+    check_result = rule_runner.run(rule: rule)
 
-    rule_runner = CommitMessageRules::RuleRunner.new(io: io, exiter: exiter)
-
-    rule_runner.run(rule: rule)
-
-    assert_mock rule
-    assert_mock io
-    assert_mock exiter
+    assert check_result.violated?
+    assert check_result.exit_if_violated?
+    assert check_result.message == rule.error_message
   end
 end
