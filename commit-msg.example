@@ -30,4 +30,9 @@ raw_commit_message = File.read(file_path)
 
 commit = Commit.new(raw_message: raw_commit_message)
 
-CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+
+if check_result.violated?
+  puts check_result.message
+  exit(1) if check_result.exit_if_violated?
+end
