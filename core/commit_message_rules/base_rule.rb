@@ -20,6 +20,14 @@ module CommitMessageRules
       true
     end
 
+    def violation_code
+      @_violation_code ||= self.class.name
+        .split('::').last
+        .gsub(/Rule$/, '')
+        .gsub(/([A-Z])/, '_\1').downcase.gsub(/^_/, '')
+        .to_sym
+    end
+
     private
 
     attr_reader :commit

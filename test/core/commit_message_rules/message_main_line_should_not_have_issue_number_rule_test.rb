@@ -24,10 +24,14 @@ class CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRuleTest < Mini
       assert rule.violated? == true
     end
   end
-  
-   def test_violated_when_main_line_has_not_issue_number
-     commit.stub :message_main_line, 'asdasd' do
-       assert rule.violated? == false
-     end
-   end
+
+  def test_violated_when_main_line_has_not_issue_number
+    commit.stub :message_main_line, 'asdasd' do
+      assert rule.violated? == false
+    end
+  end
+
+  def test_violation_code
+    assert rule.violation_code == :message_main_line_should_not_have_issue_number
+  end
 end
