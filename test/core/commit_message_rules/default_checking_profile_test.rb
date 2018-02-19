@@ -39,7 +39,7 @@ PRJ-123 [no-desc]
     assert check_result.violated?
     refute check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarningRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarning::CODE
   end
 
   def test_check_when_commit_message_skips_issue_only
@@ -71,7 +71,7 @@ Commit carriers nothing
     assert check_result.violated?
     refute check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarningRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarning::CODE
   end
 
   def test_check_when_commit_message_main_line_has_issue_code
@@ -85,7 +85,7 @@ PRJ-123 did something
     assert check_result.violated?
     assert check_result.exit_if_violated?
     assert_match /^The main line.*contains an issue number.*$/m, check_result.message
-    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotHaveIssueNumber::CODE
   end
 
   def test_check_when_commit_message_main_line_exceeds_length
@@ -103,7 +103,7 @@ This line could be empty
     assert check_result.violated?
     assert check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotExceedLengthRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotExceedLength::CODE
   end
 
   def test_check_when_commit_message_does_not_have_issue_code
@@ -119,7 +119,7 @@ This line could be empty
     assert check_result.violated?
     assert check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt::CODE
   end
 
   def test_check_when_commit_message_does_not_description
@@ -135,7 +135,7 @@ PRJ-123
     assert check_result.violated?
     assert check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkipped::CODE
   end
 
   def test_check_when_current_branch_has_issue_code

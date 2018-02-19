@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class CommitMessageRules::MessageMainLineShouldNotExceedLengthRuleTest < Minitest::Test
+class CommitMessageRules::MessageMainLineShouldNotExceedLengthTest < Minitest::Test
   include Constants
 
   def commit
@@ -8,7 +8,7 @@ class CommitMessageRules::MessageMainLineShouldNotExceedLengthRuleTest < Minites
   end
 
   def rule
-    @rule ||= CommitMessageRules::MessageMainLineShouldNotExceedLengthRule.new(commit: commit)
+    @rule ||= CommitMessageRules::MessageMainLineShouldNotExceedLength.new(commit: commit)
   end
 
   def test_error_message_should_be_overitten

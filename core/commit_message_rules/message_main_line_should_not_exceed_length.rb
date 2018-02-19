@@ -1,7 +1,7 @@
 require_relative './base_rule'
 
 module CommitMessageRules
-  class MessageMainLineShouldNotExceedLengthRule < BaseRule
+  class MessageMainLineShouldNotExceedLength < BaseRule
     def violated?
       commit.message_main_line.length > MAIN_LINE_MAX_LENGTH
     end

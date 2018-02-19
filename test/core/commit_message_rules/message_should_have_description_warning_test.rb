@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest::Test
+class CommitMessageRules::MessageShouldHaveDescriptionWarningTest < Minitest::Test
   include Constants
 
   def commit
@@ -8,7 +8,7 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
   end
 
   def rule
-    @rule ||= CommitMessageRules::MessageShouldHaveDescriptionWarningRule.new(commit: commit)
+    @rule ||= CommitMessageRules::MessageShouldHaveDescriptionWarning.new(commit: commit)
   end
 
   def test_error_message_should_be_overitten
