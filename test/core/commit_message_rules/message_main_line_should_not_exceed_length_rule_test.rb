@@ -30,8 +30,4 @@ class CommitMessageRules::MessageMainLineShouldNotExceedLengthRuleTest < Minites
       assert rule.violated? == false
     end
   end
-
-  def test_violation_code
-    assert rule.class.violation_code == :message_main_line_should_not_exceed_length
-  end
 end
