@@ -44,6 +44,6 @@ class CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPart
   end
 
   def test_violation_code
-    assert rule.violation_code == :message_description_should_have_issue_code_unless_another_part_has_it
+    assert rule.class.violation_code == :message_description_should_have_issue_code_unless_another_part_has_it
   end
 end

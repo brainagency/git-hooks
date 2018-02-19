@@ -20,8 +20,8 @@ module CommitMessageRules
       true
     end
 
-    def violation_code
-      @_violation_code ||= self.class.name
+    def self.violation_code
+      @_violation_code ||= self.name
         .split('::').last
         .gsub(/Rule$/, '')
         .gsub(/([A-Z])/, '_\1').downcase.gsub(/^_/, '')
