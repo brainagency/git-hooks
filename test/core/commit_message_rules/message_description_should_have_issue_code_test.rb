@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItTest < Minitest::Test
+class CommitMessageRules::MessageDescriptionShouldHaveIssueCodeTest < Minitest::Test
   include Constants
 
   def commit
@@ -8,7 +8,7 @@ class CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPart
   end
 
   def rule
-    @rule ||= CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt.new(commit: commit)
+    @rule ||= CommitMessageRules::MessageDescriptionShouldHaveIssueCode.new(commit: commit)
   end
 
   def test_error_message_should_be_overitten

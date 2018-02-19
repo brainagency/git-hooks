@@ -119,7 +119,7 @@ This line could be empty
     assert check_result.violated?
     assert check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageDescriptionShouldHaveIssueCode::CODE
   end
 
   def test_check_when_commit_message_does_not_description
@@ -135,7 +135,7 @@ PRJ-123
     assert check_result.violated?
     assert check_result.exit_if_violated?
     refute check_result.message.empty?
-    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkipped::CODE
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescription::CODE
   end
 
   def test_check_when_current_branch_has_issue_code

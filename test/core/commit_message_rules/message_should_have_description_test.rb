@@ -1,12 +1,12 @@
 require_relative '../../test_helper'
 
-class CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedTest < Minitest::Test
+class CommitMessageRules::MessageShouldHaveDescriptionTest < Minitest::Test
   def commit
     @commit ||= Commit.new
   end
 
   def rule
-    @rule ||= CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkipped.new(commit: commit)
+    @rule ||= CommitMessageRules::MessageShouldHaveDescription.new(commit: commit)
   end
 
   def test_error_message_should_be_overitten

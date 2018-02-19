@@ -1,7 +1,7 @@
 require_relative './base_rule'
 
 module CommitMessageRules
-  class MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt < BaseRule
+  class MessageDescriptionShouldHaveIssueCode < BaseRule
     def violated?
       return false if skipped?
       description_has_not_issue_code? && current_branch_has_not_issue_code_in_name?
