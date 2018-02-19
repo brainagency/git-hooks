@@ -32,6 +32,6 @@ class CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRuleTest < Mini
   end
 
   def test_violation_code
-    assert rule.violation_code == :message_main_line_should_not_have_issue_number
+    assert rule.class.violation_code == :message_main_line_should_not_have_issue_number
   end
 end

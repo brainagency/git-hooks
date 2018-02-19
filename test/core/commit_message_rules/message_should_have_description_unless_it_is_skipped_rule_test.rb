@@ -36,6 +36,6 @@ class CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRuleTest 
   end
 
   def test_violation_code
-    assert rule.violation_code == :message_should_have_description_unless_it_is_skipped
+    assert rule.class.violation_code == :message_should_have_description_unless_it_is_skipped
   end
 end

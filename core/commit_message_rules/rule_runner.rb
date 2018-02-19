@@ -17,7 +17,7 @@ module CommitMessageRules
     def build_violated_result(rule)
       RuleCheckResult.new(
         is_violated: true,
-        violation_code: rule.violation_code,
+        violation_code: rule.class.violation_code,
         exit_if_violated: rule.exit_if_violated?,
         message: rule.error_message
       )

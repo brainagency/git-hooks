@@ -42,6 +42,6 @@ class CommitMessageRules::MessageShouldHaveDescriptionWarningRuleTest < Minitest
   end
 
   def test_violation_code
-    assert rule.violation_code == :message_should_have_description_warning
+    assert rule.class.violation_code == :message_should_have_description_warning
   end
 end
