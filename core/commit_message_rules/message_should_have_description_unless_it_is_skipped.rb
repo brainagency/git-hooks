@@ -3,7 +3,8 @@ require_relative './base_rule'
 module CommitMessageRules
   class MessageShouldHaveDescriptionUnlessItIsSkipped < BaseRule
     def violated?
-      description_is_not_skipped? && description_is_absent? 
+      return false if skipped?
+      description_is_absent? 
     end
 
     def error_message
@@ -16,8 +17,12 @@ what this commit provides. So be free to add some additional lines to describe t
 
     private
 
-    def description_is_not_skipped?
-      commit.message_description.match(NO_DESCRIPTION_REGEX) == nil
+    def skipped?
+      description_has_skip_label?
+    end
+
+    def description_has_skip_label?
+      commit.message_description.match(NO_DESCRIPTION_REGEX) != nil
     end
 
     def description_is_absent?
