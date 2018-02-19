@@ -2,6 +2,7 @@ require_relative '../../test_helper'
 
 class CommitMessageRules::DefaultCheckingProfileTest < Minitest::Test
   def build_commit(raw_message)
+    DefaultGitProxy.any_instance.stubs(:current_branch_name).returns('master')
     Commit.new(raw_message: raw_message)
   end
 
@@ -22,6 +23,7 @@ Extended and detailed description which explains:
     check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
 
     refute check_result.violated?
+    assert check_result.violation_code == CommitMessageRules::RuleCheckResult::NO_VIOLATION
   end
 
   def test_check_when_commit_message_skips_desc_only
@@ -37,6 +39,7 @@ PRJ-123 [no-desc]
     assert check_result.violated?
     refute check_result.exit_if_violated?
     refute check_result.message.empty?
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarningRule::CODE
   end
 
   def test_check_when_commit_message_skips_issue_only
@@ -52,6 +55,7 @@ This commit was made due to some refactoring
     check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
 
     refute check_result.violated?
+    assert check_result.violation_code == CommitMessageRules::RuleCheckResult::NO_VIOLATION
   end
 
   def test_check_when_commit_message_skips_issue_code_and_desc
@@ -67,6 +71,7 @@ Commit carriers nothing
     assert check_result.violated?
     refute check_result.exit_if_violated?
     refute check_result.message.empty?
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionWarningRule::CODE
   end
 
   def test_check_when_commit_message_main_line_has_issue_code
@@ -80,5 +85,72 @@ PRJ-123 did something
     assert check_result.violated?
     assert check_result.exit_if_violated?
     assert_match /^The main line.*contains an issue number.*$/m, check_result.message
+    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule::CODE
+  end
+
+  def test_check_when_commit_message_main_line_exceeds_length
+    commit = build_commit(<<-RAW_MESSAGE
+did something very very big, so the commit message is very very long as well
+
+PRJ-123
+
+This line could be empty
+                          RAW_MESSAGE
+                         )
+
+    check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+
+    assert check_result.violated?
+    assert check_result.exit_if_violated?
+    refute check_result.message.empty?
+    assert check_result.violation_code == CommitMessageRules::MessageMainLineShouldNotExceedLengthRule::CODE
+  end
+
+  def test_check_when_commit_message_does_not_have_issue_code
+    commit = build_commit(<<-RAW_MESSAGE
+Acceptable commit message here
+
+This line could be empty
+                          RAW_MESSAGE
+                         )
+
+    check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+
+    assert check_result.violated?
+    assert check_result.exit_if_violated?
+    refute check_result.message.empty?
+    assert check_result.violation_code == CommitMessageRules::MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule::CODE
+  end
+
+  def test_check_when_commit_message_does_not_description
+    commit = build_commit(<<-RAW_MESSAGE
+Acceptable commit message here
+
+PRJ-123
+                          RAW_MESSAGE
+                         )
+
+    check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+
+    assert check_result.violated?
+    assert check_result.exit_if_violated?
+    refute check_result.message.empty?
+    assert check_result.violation_code == CommitMessageRules::MessageShouldHaveDescriptionUnlessItIsSkippedRule::CODE
+  end
+
+  def test_check_when_current_branch_has_issue_code
+    commit = build_commit(<<-RAW_MESSAGE
+Acceptable commit message here
+
+Commit description should be added here
+                          RAW_MESSAGE
+                         )
+
+    DefaultGitProxy.any_instance.stubs(:current_branch_name).returns('feature/PRJ-123-cool-feature')
+
+    check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
+
+    refute check_result.violated?
+    assert check_result.violation_code == CommitMessageRules::RuleCheckResult::NO_VIOLATION
   end
 end
