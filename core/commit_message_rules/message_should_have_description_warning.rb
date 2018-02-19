@@ -1,7 +1,7 @@
 require_relative './base_rule'
 
 module CommitMessageRules
-  class MessageShouldHaveDescriptionWarningRule < BaseRule
+  class MessageShouldHaveDescriptionWarning < BaseRule
     def violated?
       commit.message_description.match(NO_DESCRIPTION_REGEX) != nil
     end

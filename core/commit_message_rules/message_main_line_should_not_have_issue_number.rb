@@ -1,7 +1,7 @@
 require_relative './base_rule'
 
 module CommitMessageRules
-  class MessageMainLineShouldNotHaveIssueNumberRule < BaseRule
+  class MessageMainLineShouldNotHaveIssueNumber < BaseRule
     def violated?
       commit.message_main_line.match(ISSUE_REGEX) != nil
     end

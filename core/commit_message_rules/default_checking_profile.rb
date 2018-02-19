@@ -22,11 +22,11 @@ module CommitMessageRules
   #
   class DefaultCheckingProfile
     RULE_CLASSES = [
-      MessageMainLineShouldNotHaveIssueNumberRule,
-      MessageMainLineShouldNotExceedLengthRule,
-      MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasItRule,
-      MessageShouldHaveDescriptionUnlessItIsSkippedRule,
-      MessageShouldHaveDescriptionWarningRule
+      MessageMainLineShouldNotHaveIssueNumber,
+      MessageMainLineShouldNotExceedLength,
+      MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt,
+      MessageShouldHaveDescriptionUnlessItIsSkipped,
+      MessageShouldHaveDescriptionWarning
     ]
 
     def self.check(commit:)

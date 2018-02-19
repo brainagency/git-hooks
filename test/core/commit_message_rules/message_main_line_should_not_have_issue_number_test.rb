@@ -1,6 +1,6 @@
 require_relative '../../test_helper'
 
-class CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRuleTest < Minitest::Test
+class CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberTest < Minitest::Test
   include Constants
 
   def commit
@@ -8,7 +8,7 @@ class CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRuleTest < Mini
   end
 
   def rule
-    @rule ||= CommitMessageRules::MessageMainLineShouldNotHaveIssueNumberRule.new(commit: commit)
+    @rule ||= CommitMessageRules::MessageMainLineShouldNotHaveIssueNumber.new(commit: commit)
   end
 
   def test_error_message_should_be_overitten
