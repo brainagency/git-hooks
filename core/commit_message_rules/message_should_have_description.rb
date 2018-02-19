@@ -1,7 +1,7 @@
 require_relative './base_rule'
 
 module CommitMessageRules
-  class MessageShouldHaveDescriptionUnlessItIsSkipped < BaseRule
+  class MessageShouldHaveDescription < BaseRule
     def violated?
       return false if skipped?
       description_is_absent? 

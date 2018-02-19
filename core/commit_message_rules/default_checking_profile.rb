@@ -24,8 +24,8 @@ module CommitMessageRules
     RULE_CLASSES = [
       MessageMainLineShouldNotHaveIssueNumber,
       MessageMainLineShouldNotExceedLength,
-      MessageDescriptionShouldHaveIssueCodeUnlessAnotherPartHasIt,
-      MessageShouldHaveDescriptionUnlessItIsSkipped,
+      MessageDescriptionShouldHaveIssueCode,
+      MessageShouldHaveDescription,
       MessageShouldHaveDescriptionWarning
     ]
 
