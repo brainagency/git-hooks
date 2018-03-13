@@ -23,7 +23,9 @@ $ ln -s git-hooks/<hook-name>.example <hook-name>
 $ chmod +x <hook-name>
 ```
 
-## commit-msg hook
+## Built-in hook scripts
+
+### commit-msg hook
 
 In order to:
    * make commit messages more standartized
@@ -46,9 +48,12 @@ the following rules will be applied:
    * additional lines could contain `[no-description]` or `[no-desc]` label
      It is not recommended, though, but you can.
 
-## prepare-commit-msg
+### prepare-commit-msg
 
-To be described...
+Intended to be used in the following scenarios:
+
+1. Prefill commit message by the previously entered one which is resolved as wrong. In this case the hook helps to not enter the commit message again.
+2. _to be developed_
 
 ## Contributions
 
