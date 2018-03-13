@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require_relative './.env'
+require_relative './core/git_hooks'
+
+# `ARGV[0]` contains the relative path to the file which contains automatically prepared commit message
+commit_msg_file_path = File.join(Constants::PROJECT_ROOT_PATH, ARGV[0])
+wrong_commit_msg_file_path = File.join(Constants::PROJECT_ROOT_PATH, Constants::WRONG_COMMIT_MSG_RELATIVE_PATH)
+
+if File.exist?(wrong_commit_msg_file_path)
+  wrong_commit_msg = File.read(wrong_commit_msg_file_path)
+  File.open(commit_msg_file_path, 'w+') do |commit_msg_file|
+    commit_msg_file.write(wrong_commit_msg)
+  end
+end
