@@ -9,7 +9,7 @@ Due to mostly scripts will be written in Ruby, __your dev system should has glob
 1. Go to `.git/hooks` folder of your project
 2. Clone the repo under the current directory
 3. Copy `.env.rb.example` to `.env.rb` and configure based on your flavour
-4. Copy the example files (with `.example` extension) into the ones without any extension. That should be done to able to checkout fresh versions.
+4. Make a link from the hook example file to the one which will be executed by the git
 5. Profit!
 
 The scripting equivalent is the following:
@@ -18,8 +18,8 @@ The scripting equivalent is the following:
 $ cd <my-project-root>
 $ cd .git/hooks
 $ git clone git@github.com:brainagency/git-hooks.git git-hooks
-$ cd git-hooks && cp .env.rb.example .env.rb
-$ cp git-hooks/<hook-name>.example <hook-name>
+$ cd git-hooks && cp .env.rb.example .env.rb && cd ..
+$ ln -s git-hooks/<hook-name>.example <hook-name>
 ```
 
 ## commit-msg hook

@@ -4,7 +4,7 @@ require_relative './.env'
 require_relative './core/git_hooks'
 
 file_path = ARGV[0]
-raw_commit_message = File.read(file_path)
+raw_commit_message = File.read(file_path.to_s)
 
 commit = Commit.new(raw_message: raw_commit_message)
 
