@@ -11,8 +11,9 @@ Due to mostly scripts will be written in Ruby, __your dev system should has glob
    ```
    git clone git@github.com:brainagency/git-hooks.git .
    ```
-3. Copy the example files (with `.example` extension) into the ones without any extension. That should be done to able to checkout fresh versions.
-4. Profit!
+3. Copy `.env.rb.example` to `.env.rb` and configure based on your flavour
+4. Copy the example files (with `.example` extension) into the ones without any extension. That should be done to able to checkout fresh versions.
+5. Profit!
 
 ## commit-msg hook
 
