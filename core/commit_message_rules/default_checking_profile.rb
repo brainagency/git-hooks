@@ -27,7 +27,7 @@ module CommitMessageRules
       MessageDescriptionShouldHaveIssueCode,
       MessageShouldHaveDescription,
       MessageShouldHaveDescriptionWarning
-    ]
+    ].freeze
 
     def self.check(commit:)
       rule_runner = RuleRunner.new

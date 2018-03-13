@@ -12,4 +12,3 @@ module Constants
   PROJECT_ROOT_PATH = File.expand_path(__FILE__).gsub(/(\.git.*)/, '').freeze
   WRONG_COMMIT_MSG_RELATIVE_PATH = '.git/COMMIT_EDITMSG_WRONG'.freeze
 end
-

@@ -4,7 +4,8 @@ module CommitMessageRules
   class MessageDescriptionShouldHaveIssueCode < BaseRule
     def violated?
       return false if skipped?
-      description_has_not_issue_code? && current_branch_has_not_issue_code_in_name?
+      description_has_not_issue_code? &&
+        current_branch_has_not_issue_code_in_name?
     end
 
     def error_message
@@ -25,12 +26,11 @@ Please, make sure to mark commit with it!
     end
 
     def description_has_not_issue_code?
-      commit.message_description.match(ISSUE_REGEX) == nil
+      commit.message_description.match(ISSUE_REGEX).nil?
     end
 
-
     def current_branch_has_not_issue_code_in_name?
-      commit.branch_name.match(ISSUE_REGEX) == nil
+      commit.branch_name.match(ISSUE_REGEX).nil?
     end
   end
 end

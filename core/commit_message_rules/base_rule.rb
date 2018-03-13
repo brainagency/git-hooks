@@ -5,7 +5,7 @@ module CommitMessageRules
     include Constants
 
     def self.inherited(child)
-      child.const_set('CODE', self.build_violation_code(child.name))
+      child.const_set('CODE', build_violation_code(child.name))
     end
 
     def initialize(commit:)
@@ -24,10 +24,8 @@ module CommitMessageRules
       true
     end
 
-    protected
-
     def self.build_violation_code(class_name)
-      @_violation_code ||= class_name
+      @build_violation_code ||= class_name
         .split('::').last
         .gsub(/Rule$/, '')
         .gsub(/([A-Z])/, '_\1').downcase.gsub(/^_/, '')
