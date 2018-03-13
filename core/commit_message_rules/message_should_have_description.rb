@@ -4,7 +4,7 @@ module CommitMessageRules
   class MessageShouldHaveDescription < BaseRule
     def violated?
       return false if skipped?
-      description_is_absent? 
+      description_is_absent?
     end
 
     def error_message

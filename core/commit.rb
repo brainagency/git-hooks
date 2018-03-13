@@ -5,7 +5,7 @@ class Commit
   include Constants
 
   def initialize(git_proxy: DefaultGitProxy.new, raw_message: '')
-    @git_proxy = git_proxy   
+    @git_proxy = git_proxy
     @raw_message = raw_message
   end
 
@@ -18,7 +18,7 @@ class Commit
   end
 
   def message
-    @_message ||= CommitMessage.new(raw_message)
+    @message ||= CommitMessage.new(raw_message)
   end
 
   def branch_name

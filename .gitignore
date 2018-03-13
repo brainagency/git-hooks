@@ -5,3 +5,5 @@
 .env.rb
 
 .byebug_history
+
+rubocop.html

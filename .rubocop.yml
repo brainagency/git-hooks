@@ -1,0 +1,20 @@
+AllCops:
+  Exclude:
+    - 'test/**/*'
+
+Metrics/LineLength:
+  IgnoredPatterns:
+    - require_relative
+    - !ruby/regexp '/^\s*#/'
+
+Style/Documentation:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+Layout/IndentHeredoc:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100

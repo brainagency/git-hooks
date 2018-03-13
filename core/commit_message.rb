@@ -12,15 +12,14 @@ class CommitMessage
   end
 
   def description
-    Array(lines_without_comments[1..-1]).join("")
+    Array(lines_without_comments[1..-1]).join('')
   end
 
   private
 
   def lines_without_comments
-    @_message_lines_without_comments ||= raw_message
+    @lines_without_comments ||= raw_message
       .split("\n")
-      .select { |line| !COMMENT_LINE_REGEX.match(line) }
+      .reject { |line| COMMENT_LINE_REGEX.match(line) }
   end
 end
-
