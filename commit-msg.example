@@ -18,9 +18,9 @@ if check_result.violated?
   end
   puts check_result.message
   exit(1) if check_result.exit_if_violated?
-else
-  begin
-    File.delete(wrong_commit_msg_file_path)
-  rescue
-  end
+end
+
+begin
+  File.delete(wrong_commit_msg_file_path)
+rescue
 end
