@@ -11,6 +11,10 @@ commit = Commit.new(raw_message: raw_commit_message)
 check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
 
 if check_result.violated?
+  wrong_file_path = File.join(PROJECT_ROOT_PATH, WRONG_COMMIT_MSG_FILE_NAME)
+  File.open(wrong_file_path) do |wrong_commit_msg_file|
+    wrong_commit_msg_file.write(raw_commit_message)
+  end
   puts check_result.message
   exit(1) if check_result.exit_if_violated?
 end
