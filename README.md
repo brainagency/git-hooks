@@ -46,6 +46,10 @@ the following rules will be applied:
    * additional lines could contain `[no-description]` or `[no-desc]` label
      It is not recommended, though, but you can.
 
+## prepare-commit-msg
+
+To be described...
+
 ## Contributions
 
 All contributions are welcome and required! Feel free to make a fork and send PRs! Let's make our
