@@ -20,6 +20,7 @@ $ cd .git/hooks
 $ git clone git@github.com:brainagency/git-hooks.git git-hooks
 $ cd git-hooks && cp .env.rb.example .env.rb && cd ..
 $ ln -s git-hooks/<hook-name>.example <hook-name>
+$ chmod +x <hook-name>
 ```
 
 ## commit-msg hook
