@@ -13,11 +13,13 @@ check_result = CommitMessageRules::DefaultCheckingProfile.check(commit: commit)
 wrong_commit_msg_file_path = File.join(Constants::PROJECT_ROOT_PATH, Constants::WRONG_COMMIT_MSG_RELATIVE_PATH)
 
 if check_result.violated?
-  File.open(wrong_commit_msg_file_path, 'w+') do |wrong_commit_msg_file|
-    wrong_commit_msg_file.write(raw_commit_message)
-  end
   puts check_result.message
-  exit(1) if check_result.exit_if_violated?
+  if check_result.exit_if_violated?
+    File.open(wrong_commit_msg_file_path, 'w+') do |wrong_commit_msg_file|
+      wrong_commit_msg_file.write(raw_commit_message)
+    end
+    exit(1)
+  end
 end
 
 begin
